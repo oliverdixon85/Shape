@@ -1,0 +1,38 @@
+
+ body {
+    margin-top: 3em;
+    margin-bottom: 3em;
+
+}
+
+h1 {
+    text-align: center;
+    user-select: none;
+}
+
+#btn-container {
+    padding-top: 1em;
+    width: 95%;
+    background-color: rgb(190, 190, 190);
+    padding-bottom: 1.5em;
+    border: 1px solid black;
+    margin-bottom: 2em;
+}
+
+#shape-container {
+    height: 600px;
+    width: 600px;
+    background-color:lightblue;
+    float: left;
+    margin-top: 15px;
+    margin-left: 75px;
+}
+
+#data-container {
+    height: 600px;
+    width: 400px;
+    background-color: lightgrey;
+    float: right;
+    margin-top: 15px;
+    margin-right: 75px;
+}
