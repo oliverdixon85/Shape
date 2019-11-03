@@ -38,7 +38,11 @@ class Rectangle extends Shape {
                 Perimeter : ${height * 2 + width * 2} 
                 Area : ${height * width}
                 `)
-        })
+        }) 
+        this.div.addEventListener("dblclick", () => {
+            this.remove();
+        });
+
     }
 }
 
@@ -57,6 +61,9 @@ class Square extends Shape {
             )
 
         })
+        this.div.addEventListener("dblclick", () => {
+            this.remove();
+        });
     }
 }
 
@@ -73,6 +80,9 @@ class Circle extends Shape {
                 Circumfrence: ${2 * Math.PI * radius}
                 `)
         })
+        this.div.addEventListener("dblclick", () => {
+            this.remove();
+        });
     }
 }
 
@@ -90,6 +100,9 @@ class Triangle extends Shape {
                 `
             )
         })
+        this.div.addEventListener("dblclick", () => {
+            this.remove();
+        });
     }
 }
 
