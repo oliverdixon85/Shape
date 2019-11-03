@@ -1,197 +1,137 @@
-const min = 0;
-const max = 600;
-
-
-let data = $('<p></p>')
-let shapeContainer = $('#shape-container');
-let dataContainer = $('#data-container');
-let rectangleButton = $('#create-rectangle-btn');
-let squareButton = $('#create-square-btn');
-let circleButton = $('#create-circle-btn');
-let triangleButton = $('#create-triangle-btn');
-let rectangleWidth = $('#rectangle-width');
-let rectangleHeight = $('#rectangle-height');
-let squareHeight = $('#square-height');
-let circleRadius = $('#circle-radius');
-let triangleHeight = $('#triangle-height');
-
-
-$(rectangleButton).click(() => {
-    if ((rectangleWidth.val() >= 1 && rectangleWidth.val() <= 600) && (rectangleHeight.val() >= 1 && rectangleHeight.val() <= 600)) {
-        let rectangle = new Rectangle(rectangleWidth.val(), rectangleHeight.val());
-    }
-    else {
-        alert('Please enter a width and height between 1 and 600 for the rectangle.');
-    }
-});
-$(squareButton).click(() => {
-    if (squareHeight.val() >= 1 && squareHeight.val() <= 600) {
-        let square = new Square(squareHeight.val());
-    }
-    else {
-        alert('Please enter a height between 1 and 600 for the square.');
-    }
-});
-$(circleButton).click(() => {
-    if (circleRadius.val() >= 1 && circleRadius.val() <= 300) {
-        let circle = new Circle(circleRadius.val());
-    }
-    else {
-        alert('Please enter a radius between 1 an 300 for the circle.');
-    }
-});
-$(triangleButton).click(() => {
-    if (triangleHeight.val() >= 1 && triangleHeight.val() <= 600) {
-        let triangle = new Triangle(triangleHeight.val());
-    }
-    else {
-        alert('Please enter a height between 1 and 600 for the triangle.');
-    }
-});
-
 class Shape {
-    constructor() {
-        this.div = $('<div></div');
-        $(this.div).click(this.describeShape.bind(this));
-        $(this.div).dblclick(this.deleteShape);
-    }
-    setCoordinate() {
-        this.x = Math.floor(Math.random() * (max - min) + min);
-        this.y = Math.floor(Math.random() * (max - min) + min);
-    }
-    style() {
-        $(this.div).css({
-            'position': 'absolute',
-            'background-color': this.color,
-            'width': this.width + 'px',
-            'height': this.height + 'px',
-            'left': this.x,
-            'top': this.y,
-        });
-    }
-    drawShape() {
-        $(this.div).appendTo('#shape-container');
-    }
-    describeShape() {
-        this.infoText = `<b>Shape Name: </b>${this.name}<br/>
-        <b>Shape Width: </b>${this.width}<br/>
-        <b>Shape Height: </b>${this.height}<br/>
-        <b>Shape Radius: </b>${this.radius}<br/>
-        <b>Shape Area: </b>${this.area}<br/>
-        <b>Shape Perimeter: </b>${this.perimeter}<br/><br/>`;
-
-        $(data).append(this.infoText);
-        $(dataContainer).append(data);
-    }
-    deleteShape() {
-        this.remove();
-        $(data).html('');
-    }
-}
-class Rectangle extends Shape {
-    constructor(width, height) {
-        super();
-        this.name = 'Rectangle';
-        this.color = 'green';
+    constructor(height, width) {
+        this.height = height;
         this.width = width;
-        this.height = height;
-        this.radius = '';
-        this.area = this.getArea();
-        this.perimeter = this.getPerimeter();
-        this.setCoordinate();
-        this.style();
-        this.drawShape();
+        this.div = $('<div class="shape"></div>');
+        this.top = this.generateRandomPos(this.height);
+        this.left = this.generateRandomPos(this.width);
+        this.div = $('<div class="shape"></div>');
+        this.render();
     }
-    getArea() {
-        return this.width * this.height;
+
+    generateRandomPos(offset) {
+        return Math.floor(Math.random() * (601 - offset));
+
     }
-    getPerimeter() {
-        return 2 * this.width + 2 * this.height;
+
+    render() {
+        this.div.css({
+            height: this.height,
+            width: this.width,
+            top: this.top,
+            left: this.left
+        });
+        $('#shape-container').append(this.div);
     }
 }
+
+class Rectangle extends Shape {
+    constructor(height, width) {
+        super(height, width);
+        this.div.attr('id', 'rectangle');
+        this.div.click(() => {
+            $('#data-container').text("Rectangle"),
+                $('#data-container').text(`
+                Name: Square \n\
+                Height: ${height}
+                Width : ${width}
+                Perimeter : ${height * 2 + width * 2} 
+                Area : ${height * width}
+                `)
+        })
+    }
+}
+
 class Square extends Shape {
-    constructor(height) {
-        super();
-        this.name = 'Square';
-        this.color = 'red';
-        this.height = height;
-        this.width = this.height;
-        this.radius = '';
-        this.area = this.getArea();
-        this.perimeter = this.getPerimeter();
-        this.setCoordinate();
-        this.style();
-        this.drawShape();
-    }
-    getArea() {
-        return Math.pow(this.height, 2);
-    }
-    getPerimeter() {
-        return (4 * this.height);
+    constructor(side) {
+        super(side, side);
+        this.div.attr('id', 'square');
+        this.div.click(() => {
+            $('#data-container').text(
+                `Name: Square \n\
+                Height: ${side}
+                Width : ${side}
+                Perimeter : ${side * 4} 
+                Area : ${side * side}
+                `
+            )
+
+        })
     }
 }
+
 class Circle extends Shape {
     constructor(radius) {
-        super();
-        this.name = 'Circle';
-        this.color = 'purple';
-        this.width = radius * 2;
-        this.height = radius * 2;
-        this.radius = radius;
-        this.area = this.getArea();
-        this.perimeter = this.getPerimeter();
-        this.setCoordinate();
-        this.style();
-        this.drawShape();
-    }
-    getArea() {
-        return Math.PI * this.radius * this.radius
-    }
-    getPerimeter() {
-        return 2 * Math.PI * this.radius;
-    }
-    style() {
-        $(this.div).css({
-            'position': 'absolute',
-            'background-color': 'purple',
-            'width': this.width + 'px',
-            'height': this.height + 'px',
-            'left': this.x,
-            'top': this.y,
-            '-moz-border-radius': this.radius + 'px',
-            '-webkit-border-radius': this.radius + 'px',
-        });
+        super(radius, radius);
+        this.div.attr('id', 'circle');
+        this.div.click(() => {
+            $('#data-container').text(
+                `Name : Circle
+                Diameter: ${radius * 2}
+                Radius: ${radius}
+                Area: ${(radius * radius) * Math.PI}
+                Circumfrence: ${2 * Math.PI * radius}
+                `)
+        })
     }
 }
+
 class Triangle extends Shape {
     constructor(height) {
-        super();
-        this.name = 'Triangle';
-        this.color = 'yellow';
-        this.width = height;
-        this.height = height;
-        this.radius = '';
-        this.area = this.getArea();
-        this.perimeter = this.getPerimeter();
-        this.setCoordinate();
-        this.style();
-        this.drawShape();
-    }
-    getArea() {
-        return 0.5 * this.height * this.height;
-    }
-    getPerimeter() {
-        return 2 * this.height + Math.pow(Math.pow(this.height, 2) + Math.pow(this.height, 2), 0.5)
-    }
-    style() {
-        $(this.div).css({
-            'position': 'absolute',
-            'width': 0 + 'px',
-            'height': 0 + 'px',
-            'left': this.x,
-            'top': this.y,
-            'border-bottom': this.width + 'px solid yellow',
-            'border-right': this.width + 'px solid transparent',
-        });
+        super(height, height);
+        this.div.attr('id', 'triangle');
+        this.div.click(() => {
+            $('data-container').text(
+                `Name: Triangle
+                Height: ${side}
+                Width : ${side}
+                Perimeter : ${2 * height + Math.sqrt(2) * height} 
+                Area : Area: ${0.5 * height * height}
+                `
+            )
+        })
     }
 }
+
+
+let btnRectangle = document.getElementById("create-rectangle-btn");
+btnRectangle.addEventListener("click", function () {
+    let rectHeight = document.getElementById('rectangle-height').value;
+    let rectWidth = document.getElementById('rectangle-width').value;
+    if (rectHeight >= 601 || rectWidth >= 601) {
+        alert("Too big");
+    } else {
+        new Rectangle(rectHeight, rectWidth);
+    }
+});
+
+let btnSquare = document.getElementById("create-square-btn");
+btnSquare.addEventListener("click", function () {
+    let sq = document.getElementById('square-height').value;
+    if (sq >= 601) {
+        alert("Too big!");
+    } else {
+        new Square(sq);
+    }
+});
+
+let btnCircle = document.getElementById("create-circle-btn");
+btnCircle.addEventListener("click", function () {
+    let cir = document.getElementById('circle-radius').value;
+    if (cir >= 601) {
+        alert("Too big!");
+    } else {
+        new Circle(cir);
+    }
+});
+
+let btnTriangle = document.getElementById("create-triangle-btn");
+btnTriangle.addEventListener("click", function () {
+    let tri = document.getElementById('triangle-height').value;
+    if (tri >= 601) {
+        alert("Too big!");
+    } else {
+        new Triangle(tri);
+    }
+});
+

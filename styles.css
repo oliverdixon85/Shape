@@ -24,6 +24,8 @@ h1 {
     width: 600px;
     background-color:lightblue;
     float: left;
+    position: relative;
+    border: 1px solid black;
     margin-top: 15px;
     margin-left: 75px;
 }
@@ -31,8 +33,37 @@ h1 {
 #data-container {
     height: 600px;
     width: 400px;
+    border: 1px solid black;
     background-color: lightgrey;
     float: right;
     margin-top: 15px;
     margin-right: 75px;
 }
+
+.shape {
+    position: absolute;
+    
+}
+
+#rectangle {
+    background-color: red;
+    opacity: 0.75
+}
+
+#square {
+    background-color: blue ;
+    opacity: 0.75;
+}
+
+#circle {
+    background-color: purple;
+    opacity: 0.75;
+    border-radius: 50%;
+}
+
+#triangle {
+    opacity: 0.75;
+    border-bottom: 2em solid transparent ;
+    
+    border-right: 2em solid pink;
+    
